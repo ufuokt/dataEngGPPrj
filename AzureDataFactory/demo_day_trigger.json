@@ -1,0 +1,27 @@
+{
+    "name": "demo_day_trigger",
+    "properties": {
+        "description": "trigger that will start the jobs that will prepare the data for the demo day ",
+        "annotations": [],
+        "runtimeState": "Started",
+        "pipeline": {
+            "pipelineReference": {
+                "referenceName": "pl_ingest_asset_data",
+                "type": "PipelineReference"
+            }
+        },
+        "type": "TumblingWindowTrigger",
+        "typeProperties": {
+            "frequency": "Minute",
+            "interval": 10,
+            "startTime": "2021-10-21T05:00:00Z",
+            "endTime": "2021-10-22T15:00:00Z",
+            "delay": "00:00:00",
+            "maxConcurrency": 50,
+            "retryPolicy": {
+                "intervalInSeconds": 30
+            },
+            "dependsOn": []
+        }
+    }
+}
