@@ -1,0 +1,11 @@
+root
+ |-- exchange_id: string (nullable = true)
+ |-- base_asset: string (nullable = true)
+ |-- current_price: float (nullable = true)
+ |-- price_time: timestamp (nullable = true)
+ |-- change_1h: float (nullable = true)
+ |-- change_24h: float (nullable = true)
+ |-- min_price: float (nullable = true)
+ |-- min_time: timestamp (nullable = true)
+ |-- max_price: float (nullable = true)
+ |-- max_time: timestamp (nullable = true)
