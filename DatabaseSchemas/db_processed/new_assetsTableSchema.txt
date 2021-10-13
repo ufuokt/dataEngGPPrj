@@ -1,0 +1,12 @@
+root
+ |-- exchange_id: string (nullable = true)
+ |-- symbol: string (nullable = true)
+ |-- base_asset: string (nullable = true)
+ |-- quote_asset: string (nullable = true)
+ |-- price: float (nullable = true)
+ |-- change_24h: float (nullable = true)
+ |-- spread: float (nullable = true)
+ |-- volume_24h: float (nullable = true)
+ |-- status: string (nullable = true)
+ |-- updated_at: timestamp (nullable = true)
+ |-- ingested_at: timestamp (nullable = true)
