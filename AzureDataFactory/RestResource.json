@@ -1,0 +1,17 @@
+{
+    "name": "RestResource",
+    "properties": {
+        "description": "Connection to your REST/HTTP",
+        "linkedServiceName": {
+            "referenceName": "ls_cryptingup_assets_rest",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "RestResource",
+        "typeProperties": {
+            "relativeUrl": "/api/assets/USD/markets?size=100000"
+        },
+        "schema": []
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

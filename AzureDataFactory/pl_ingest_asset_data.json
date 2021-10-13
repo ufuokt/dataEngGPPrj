@@ -1,0 +1,167 @@
+{
+    "name": "pl_ingest_asset_data",
+    "properties": {
+        "activities": [
+            {
+                "name": "Ingest Assets File",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Pull Assets Data",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Users/oktemer@outlook.com/dataenggpprj/ingestion/ingest_assets_file"
+                },
+                "linkedServiceName": {
+                    "referenceName": "ls_dataenggpprj_ws",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Pull Assets Data",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "httpRequestTimeout": "00:02:40",
+                        "requestInterval": "00.00:00:30.000",
+                        "requestMethod": "GET"
+                    },
+                    "sink": {
+                        "type": "JsonSink",
+                        "storeSettings": {
+                            "type": "AzureBlobFSWriteSettings"
+                        },
+                        "formatSettings": {
+                            "type": "JsonWriteSettings"
+                        }
+                    },
+                    "enableStaging": false
+                },
+                "inputs": [
+                    {
+                        "referenceName": "RestResource",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "SinkDataset",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "Delete raw assets file",
+                "type": "Delete",
+                "dependsOn": [
+                    {
+                        "activity": "Ingest Assets File",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "dataset": {
+                        "referenceName": "SinkDataset",
+                        "type": "DatasetReference"
+                    },
+                    "enableLogging": false,
+                    "storeSettings": {
+                        "type": "AzureBlobFSReadSettings",
+                        "recursive": true,
+                        "enablePartitionDiscovery": false
+                    }
+                }
+            },
+            {
+                "name": "Update Daily Table",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Delete raw assets file",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Users/oktemer@outlook.com/dataenggpprj/reporting/update_daily_table"
+                },
+                "linkedServiceName": {
+                    "referenceName": "ls_dataenggpprj_ws",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Regenerate Summary Table",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Update Daily Table",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Users/oktemer@outlook.com/dataenggpprj/reporting/regenerate_summary_table"
+                },
+                "linkedServiceName": {
+                    "referenceName": "ls_dataenggpprj_ws",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "concurrency": 1,
+        "annotations": [],
+        "lastPublishTime": "2021-10-12T16:09:18Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,21 @@
+{
+    "name": "SinkDataset",
+    "properties": {
+        "description": "Connection to your Azure Data Lake Store",
+        "linkedServiceName": {
+            "referenceName": "ls_dataenggpprj_dl",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "Json",
+        "typeProperties": {
+            "location": {
+                "type": "AzureBlobFSLocation",
+                "fileName": "cryptingupAllAssetsUSD.json",
+                "fileSystem": "raw"
+            }
+        },
+        "schema": {}
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}
